@@ -136,6 +136,16 @@ vim.keymap.set('i', '<M-k>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line down(i)'
 vim.keymap.set('v', '<M-j>', ":m '>+1<CR>gv=gv", { desc = 'Move line(s) down(v)' })
 vim.keymap.set('v', '<M-k>', ":m '<-2<CR>gv=gv", { desc = 'Move line(s) up(v)' })
 
+-- Git keymaps
+vim.keymap.set('n', '<leader>gs', function()
+  vim.cmd 'Neogit'
+end, { desc = '[G]it [S]tatus' })
+
+-- Better quit
+vim.keymap.set('n', '<leader>qq', function()
+  vim.cmd 'confirm quit'
+end, { desc = 'Confirm [Q]uit' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -234,6 +244,7 @@ require('lazy').setup({
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>f'] = { name = '[F]ile', _ = 'which_key_ignore' },
+        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
       }
     end,
   },
