@@ -109,6 +109,9 @@ end, { desc = 'Previous [B]uffer' })
 vim.keymap.set('n', '<leader>bk', function()
   vim.cmd 'bdelete'
 end, { desc = 'Kill [B]uffer' })
+vim.keymap.set('n', '<leader>bb', function()
+  vim.cmd 'b#'
+end, { desc = 'Switch to other [B]uffer' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -570,7 +573,7 @@ require('lazy').setup({
           require('conform').format { async = true, lsp_fallback = true }
         end,
         mode = '',
-        desc = '[F]ormat Buffer',
+        desc = '[F]ormat [B]uffer',
       },
     },
     opts = {
