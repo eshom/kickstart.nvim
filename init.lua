@@ -163,6 +163,32 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Zig local LSP version
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'zig',
+  desc = 'Start system or locally installed zig LSP',
+  group = vim.api.nvim_create_augroup('zig', { clear = true }),
+  callback = function()
+    vim.lsp.start {
+      name = 'zls-master',
+      cmd = { 'zls' },
+      root_dir = vim.fs.dirname(vim.fs.find({ 'build.zig', 'build.zig.zon' }, { upward = true, stop = vim.loop.os_homedir() })[1]),
+    }
+  end,
+})
+
+-- Zig .zon syntax highlighting
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'FileType' }, {
+  pattern = { '*.zig.zon' },
+  desc = 'Syntax highlighting for zig zon files',
+  group = vim.api.nvim_create_augroup('zig', { clear = false }),
+  callback = function()
+    --vim.cmd("syntax on")
+    --vim.cmd("set syntax=zig")
+    vim.cmd 'set filetype=zig'
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
