@@ -152,6 +152,9 @@ vim.keymap.set('n', '<leader>qQ', function()
   vim.cmd 'quit!'
 end, { desc = 'Force [Q]uit without changes' })
 
+-- more handy LSP actions
+vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'LSP [R]ename symbol' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
