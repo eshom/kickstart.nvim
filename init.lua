@@ -169,19 +169,19 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Zig local LSP version
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'zig',
-  desc = 'Start system or locally installed zig LSP',
-  group = vim.api.nvim_create_augroup('zig', { clear = true }),
-  callback = function()
-    vim.lsp.start {
-      name = 'zls-master',
-      cmd = { 'zls' },
-      root_dir = vim.fs.dirname(vim.fs.find({ 'build.zig', 'build.zig.zon' }, { upward = true, stop = vim.loop.os_homedir() })[1]),
-    }
-  end,
-})
+-- -- Zig local LSP version
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = 'zig',
+--   desc = 'Start system or locally installed zig LSP',
+--   group = vim.api.nvim_create_augroup('zig', { clear = true }),
+--   callback = function()
+--     vim.lsp.start {
+--       name = 'zls-master',
+--       cmd = { 'zls' },
+--       root_dir = vim.fs.dirname(vim.fs.find({ 'build.zig', 'build.zig.zon' }, { upward = true, stop = vim.loop.os_homedir() })[1]),
+--     }
+--   end,
+-- })
 
 -- Zig .zon syntax highlighting
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'FileType' }, {
