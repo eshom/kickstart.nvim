@@ -11,9 +11,6 @@ vim.o.softtabstop = 4
 vim.o.expandtab = true
 vim.o.smarttab = true
 
--- case smart case insensitive replace
-vim.o.smartcase = true
-
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = true
 
