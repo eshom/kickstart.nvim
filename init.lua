@@ -11,6 +11,9 @@ vim.o.softtabstop = 4
 vim.o.expandtab = true
 vim.o.smarttab = true
 
+-- case smart case insensitive replace
+vim.o.smartcase = true
+
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = true
 
@@ -281,6 +284,7 @@ require('lazy').setup({
         ['<leader>f'] = { name = '[F]ile', _ = 'which_key_ignore' },
         ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
         ['<leader>q'] = { name = '[Q]uit', _ = 'which_key_ignore' },
+        ['<leader>D'] = { name = '[D]ebug', _ = 'which_key_ignore' },
       }
     end,
   },
