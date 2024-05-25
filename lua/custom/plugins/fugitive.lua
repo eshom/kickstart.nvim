@@ -31,6 +31,14 @@ return {
 
     vim.keymap.set('n', '<leader>gD', function()
       vim.cmd 'Git difftool'
-    end, { desc = '[G]it [D]erge difftool' })
+    end, { desc = '[G]it [D]ifftool' })
+
+    vim.keymap.set('n', '<leader>gP', function()
+      vim.cmd 'Git push'
+    end, { desc = '[G]it [P]push' })
+
+    vim.keymap.set('n', '<leader>gp', function()
+      vim.cmd 'Git pull'
+    end, { desc = '[G]it [P]ull' })
   end,
 }
