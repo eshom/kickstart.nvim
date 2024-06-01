@@ -106,9 +106,9 @@ end, { desc = 'Next [B]uffer' })
 vim.keymap.set('n', '<leader>bp', function()
   vim.cmd 'bprev'
 end, { desc = 'Previous [B]uffer' })
-vim.keymap.set('n', '<leader>bk', function()
-  vim.cmd 'bdelete'
-end, { desc = 'Kill [B]uffer' })
+vim.keymap.set('n', '<leader>bd', function()
+  vim.cmd 'confirm bdelete'
+end, { desc = '[D]elete [B]uffer' })
 vim.keymap.set('n', '<leader>bb', function()
   vim.cmd 'b#'
 end, { desc = 'Switch to other [B]uffer' })
