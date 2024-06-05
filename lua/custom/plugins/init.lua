@@ -14,7 +14,8 @@ return {
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'rose-pine-moon'
+      -- vim.cmd.colorscheme 'rose-pine-moon'
+      vim.cmd.colorscheme 'rose-pine'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -23,10 +24,10 @@ return {
       require('rose-pine').setup {
         dim_inactive_windows = true,
 
-        highlight_groups = {
-          Normal = { bg = 'highlight low' },
-          CursorLine = {bg = 'base'},
-        },
+        -- highlight_groups = {
+        --   Normal = { bg = 'highlight low' },
+        --   CursorLine = {bg = 'base'},
+        -- },
       }
     end,
   },
