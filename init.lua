@@ -274,18 +274,18 @@ require('lazy').setup({
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>b'] = { name = '[B]uffer', _ = 'which_key_ignore' },
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>f'] = { name = '[F]ile', _ = 'which_key_ignore' },
-        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-        ['<leader>q'] = { name = '[Q]uit', _ = 'which_key_ignore' },
-        ['<leader>D'] = { name = '[D]ebug', _ = 'which_key_ignore' },
-      }
+      require('which-key').add({
+        {'<leader>b',  group = 'Buffer'},
+        {'<leader>c',  group = 'Code'},
+        {'<leader>d',  group = 'Document'},
+        {'<leader>r',  group = 'Rename'},
+        {'<leader>s',  group = 'Search'},
+        {'<leader>w',  group = 'Workspace'},
+        {'<leader>f',  group = 'File'},
+        {'<leader>g',  group = 'Git'},
+        {'<leader>q',  group = 'Quit'},
+        {'<leader>D',  group = 'Debug'},
+      })
     end,
   },
 
