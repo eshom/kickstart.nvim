@@ -9,7 +9,7 @@ return {
     'rose-pine/neovim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      vim.cmd.colorscheme 'rose-pine'
+      -- vim.cmd.colorscheme 'rose-pine'
     end,
     config = function()
       require('rose-pine').setup {
@@ -40,7 +40,7 @@ return {
     priority = 1000,
     opts = {},
     init = function()
-      -- vim.cmd.colorscheme 'tokyonight'
+      vim.cmd.colorscheme 'tokyonight'
     end,
     config = function()
       require('tokyonight').setup {
