@@ -95,9 +95,9 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagn
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- inlay hints toggle
-vim.keymap.set('n', '<leader>ci', function ()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
-end, {desc = 'Toggle LSP [I]nlay hints'})
+vim.keymap.set('n', '<leader>ci', function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {})
+end, { desc = 'Toggle LSP [I]nlay hints' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -171,20 +171,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
-
--- -- Zig local LSP version
--- vim.api.nvim_create_autocmd('FileType', {
---   pattern = 'zig',
---   desc = 'Start system or locally installed zig LSP',
---   group = vim.api.nvim_create_augroup('zig', { clear = true }),
---   callback = function()
---     vim.lsp.start {
---       name = 'zls-master',
---       cmd = { 'zls' },
---       root_dir = vim.fs.dirname(vim.fs.find({ 'build.zig', 'build.zig.zon' }, { upward = true, stop = vim.loop.os_homedir() })[1]),
---     }
---   end,
--- })
 
 -- Zig .zon syntax highlighting
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'FileType' }, {
@@ -274,18 +260,18 @@ require('lazy').setup({
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').add({
-        {'<leader>b',  group = 'Buffer'},
-        {'<leader>c',  group = 'Code'},
-        {'<leader>d',  group = 'Document'},
-        {'<leader>r',  group = 'Rename'},
-        {'<leader>s',  group = 'Search'},
-        {'<leader>w',  group = 'Workspace'},
-        {'<leader>f',  group = 'File'},
-        {'<leader>g',  group = 'Git'},
-        {'<leader>q',  group = 'Quit'},
-        {'<leader>D',  group = 'Debug'},
-      })
+      require('which-key').add {
+        { '<leader>b', group = 'Buffer' },
+        { '<leader>c', group = 'Code' },
+        { '<leader>d', group = 'Document' },
+        { '<leader>r', group = 'Rename' },
+        { '<leader>s', group = 'Search' },
+        { '<leader>w', group = 'Workspace' },
+        { '<leader>f', group = 'File' },
+        { '<leader>g', group = 'Git' },
+        { '<leader>q', group = 'Quit' },
+        { '<leader>D', group = 'Debug' },
+      }
     end,
   },
 
@@ -378,8 +364,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sC', builtin.command_history, { desc = '[S]earch [C]ommand history' })
       vim.keymap.set('n', '<leader>fg', builtin.git_files, { desc = '[S]earch [G]it project [F]iles' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      vim.keymap.set('n', '<leader>wq', builtin.quickfix, { desc = 'Open [Q]uickfix list'})
-      vim.keymap.set('n', '<leader>wl', builtin.loclist, { desc = 'Open window [L]ocation list'})
+      vim.keymap.set('n', '<leader>wq', builtin.quickfix, { desc = 'Open [Q]uickfix list' })
+      vim.keymap.set('n', '<leader>wl', builtin.loclist, { desc = 'Open window [L]ocation list' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -740,7 +726,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
-          { name = "cmp_r"},
+          { name = 'cmp_r' },
         },
       }
     end,
@@ -765,12 +751,12 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup({
+      require('mini.surround').setup {
         mappings = {
           find = '',
           find_left = '',
-        }
-      })
+        },
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -841,6 +827,7 @@ require('lazy').setup({
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   { import = 'custom.plugins' },
+  { import = 'custom' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
