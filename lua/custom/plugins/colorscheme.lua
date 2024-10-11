@@ -25,6 +25,9 @@ return {
     'ribru17/bamboo.nvim',
     lazy = false,
     priority = 1000,
+    init = function()
+      vim.cmd.colorscheme 'bamboo'
+    end,
     config = function()
       require('bamboo').setup {
         -- optional configuration here
@@ -55,7 +58,7 @@ return {
     lazy = false,
     priority = 1000,
     init = function()
-      vim.cmd.colorscheme 'moonfly'
+      -- vim.cmd.colorscheme 'moonfly'
     end,
   }
 }
