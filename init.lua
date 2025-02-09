@@ -172,6 +172,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- zig.vim don't auto format
+vim.g.zig_fmt_autosave = 0
+
 -- Zig .zon syntax highlighting
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'FileType' }, {
   pattern = { '*.zig.zon' },
