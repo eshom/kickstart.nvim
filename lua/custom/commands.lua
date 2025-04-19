@@ -1,4 +1,4 @@
-local builtin = require 'telescope.builtin'
+-- local builtin = require 'telescope.builtin'
 
 return {
   -- Grep to quickfix
