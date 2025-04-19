@@ -88,14 +88,8 @@ vim.opt.scrolloff = 15
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
--- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
 -- inlay hints toggle
-vim.keymap.set('n', '<leader>ci', function()
+vim.keymap.set('n', '<leader>ti', function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {})
 end, { desc = 'Toggle LSP [I]nlay hints' })
 
@@ -154,9 +148,6 @@ end, { desc = 'Confirm [Q]uit' })
 vim.keymap.set('n', '<leader>qQ', function()
   vim.cmd 'quit!'
 end, { desc = 'Force [Q]uit without changes' })
-
--- more handy LSP actions
-vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'LSP [R]ename symbol' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -266,12 +257,13 @@ require('lazy').setup({
       require('which-key').add {
         { '<leader>b', group = 'Buffer' },
         { '<leader>c', group = 'Code' },
-        { '<leader>d', group = 'Document' },
         { '<leader>r', group = 'Rename' },
         { '<leader>s', group = 'Search' },
         { '<leader>w', group = 'Workspace' },
         { '<leader>f', group = 'File' },
         { '<leader>g', group = 'Git' },
+        { '<leader>t', group = 'Toggle' },
+        { '<leader>gh', group = 'Gitsigns' },
         { '<leader>q', group = 'Quit' },
         { '<leader>D', group = 'Debug' },
       }
@@ -453,48 +445,34 @@ require('lazy').setup({
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          local map_insert = function(keys, func, desc)
-            vim.keymap.set('i', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-          end
-
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
           map_normal('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- Find references for the word under your cursor.
-          map_normal('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          map_normal('grR', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
-          map_normal('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+          map_normal('grI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
-          map_normal('<leader>dt', require('telescope.builtin').lsp_type_definitions, '[T]ype [D]efinition')
+          map_normal('grt', require('telescope.builtin').lsp_type_definitions, '[T]ype [D]efinition')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map_normal('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+          map_normal('grO', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map_normal('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+          map_normal('grT', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-          -- Rename the variable under your cursor.
-          --  Most Language Servers support renaming across files, etc.
-          map_normal('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-
-          -- Execute a code action, usually your cursor needs to be on top of an error
-          -- or a suggestion from your LSP for this to activate.
-          map_normal('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-
-          -- Opens a popup that displays documentation about the word under your cursor
+          -- Opens a popup that displays documentktion about the word under your cursor
           --  See `:help K` for why this keymap.
           map_normal('K', vim.lsp.buf.hover, 'Hover Documentation')
-          map_normal('<M-i>', vim.lsp.buf.signature_help, 'Signature Help')
-          map_insert('<M-i>', vim.lsp.buf.signature_help, 'Signature Help')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
@@ -564,14 +542,12 @@ require('lazy').setup({
             },
           },
         },
-
         zls = {
           settings = {
             zls = {
-              enable_autofix = true,
+              zig_exe_path = '/home/erez/.local/bin/zig',
+              zig_lib_path = '/home/erez/.local/bin/zigup-internal/bin/0.14.0/files/lib',
               enable_argument_placeholders = false,
-              enable_build_on_save = true,
-              build_on_save_step = 'check',
             },
           },
         },
@@ -594,6 +570,8 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
+        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+        automatic_installation = false,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -845,7 +823,7 @@ require('lazy').setup({
             on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
           }
 
-          vim.keymap.set('n', '<leader>ct', function()
+          vim.keymap.set('n', '<leader>tc', function()
             vim.cmd 'TSContextToggle'
           end, { desc = 'Toggle [T]reesitter Context' })
         end,
@@ -864,7 +842,7 @@ require('lazy').setup({
   --
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
-  require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.gitsigns',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
