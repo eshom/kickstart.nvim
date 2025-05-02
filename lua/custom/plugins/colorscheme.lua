@@ -76,6 +76,8 @@ return {
         -- Your config here
         background = 'medium',
         transparent_background_level = 2,
+        ui_contrast = "high",
+        float_style = "dim",
       }
     end,
   },
