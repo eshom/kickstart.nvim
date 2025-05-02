@@ -58,7 +58,7 @@ return {
     lazy = false,
     priority = 1000,
     init = function()
-      -- vim.cmd.colorscheme 'moonfly'
+      vim.cmd.colorscheme 'moonfly'
     end,
   },
 
@@ -69,7 +69,7 @@ return {
     priority = 1000, -- make sure to load this before all the other start plugins
     -- Optional; default configuration will be used if setup isn't called.
     init = function()
-      vim.cmd.colorscheme 'everforest'
+      -- vim.cmd.colorscheme 'everforest'
     end,
     config = function()
       require('everforest').setup {
