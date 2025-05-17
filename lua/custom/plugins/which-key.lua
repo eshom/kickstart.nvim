@@ -55,6 +55,7 @@ return {
       { '<leader>g', group = '[G]it' },
       { '<leader>D', group = '[D]ebug' },
       { '<leader>y', group = '[Y]ank' },
+      { '<leader>f', group = '[F]lash' },
     },
   },
 }
