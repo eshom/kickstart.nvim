@@ -8,6 +8,9 @@ vim.g.maplocalleader = '\\'
 
 vim.g.have_nerd_font = true
 
+-- zig.vim don't auto format
+vim.g.zig_fmt_autosave = 0
+
 -- [[ Options ]]
 
 -- tabs indentation and spaces

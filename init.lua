@@ -1,103 +1,8 @@
 require 'options'
+require 'keymap'
+require 'autocmd'
+require 'lazy-install'
 
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
-
--- Clear highlights on search when pressing <Esc> in normal mode
---  See `:help hlsearch`
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>cd', vim.diagnostic.setloclist, { desc = 'Open [d]iagnostic Quickfix list' })
-
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
--- Buffer navigation keybindings
-vim.keymap.set('n', '<leader>bn', function()
-  vim.cmd 'bnext'
-end, { desc = 'Next [B]uffer' })
-vim.keymap.set('n', '<leader>bp', function()
-  vim.cmd 'bprev'
-end, { desc = 'Previous [B]uffer' })
-vim.keymap.set('n', '<leader>bd', function()
-  vim.cmd 'confirm bdelete'
-end, { desc = '[D]elete [B]uffer' })
-vim.keymap.set('n', '<leader>bb', function()
-  vim.cmd 'b#'
-end, { desc = 'Switch to other [B]uffer' })
-
--- Handy system clipboard interaction
-vim.keymap.set('v', '<leader>y', '"+y', { desc = '[Y]ank to system clipboard' })
-
--- Moving code around
-vim.keymap.set('n', '<M-j>', ':m .+1<CR>==', { desc = 'Move line down(n)' })
-vim.keymap.set('n', '<M-k>', ':m .-2<CR>==', { desc = 'Move line up(n)' })
-vim.keymap.set('i', '<M-j>', '<Esc>:m .+1<CR>==gi', { desc = 'Move line down(i)' })
-vim.keymap.set('i', '<M-k>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line down(i)' })
-vim.keymap.set('v', '<M-j>', ":m '>+1<CR>gv=gv", { desc = 'Move line(s) down(v)' })
-vim.keymap.set('v', '<M-k>', ":m '<-2<CR>gv=gv", { desc = 'Move line(s) up(v)' })
-
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
-
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.hl.on_yank()`
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.hl.on_yank()
-  end,
-})
-
--- zig.vim don't auto format
-vim.g.zig_fmt_autosave = 0
-
--- Zig .zon syntax highlighting
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'FileType' }, {
-  pattern = { '*.zig.zon' },
-  desc = 'Syntax highlighting for zig zon files',
-  group = vim.api.nvim_create_augroup('zig', { clear = false }),
-  callback = function()
-    --vim.cmd("syntax on")
-    --vim.cmd("set syntax=zig")
-    vim.cmd 'set filetype=zig'
-  end,
-})
-
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
-  if vim.v.shell_error ~= 0 then
-    error('Error cloning lazy.nvim:\n' .. out)
-  end
-end
-
----@type vim.Option
-local rtp = vim.opt.rtp
-rtp:prepend(lazypath)
-
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
@@ -205,6 +110,7 @@ require('lazy').setup({
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>g', group = '[G]it' },
         { '<leader>D', group = '[D]ebug' },
+        { '<leader>y', group = '[Y]ank' },
       },
     },
   },
