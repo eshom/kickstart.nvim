@@ -26,6 +26,9 @@ vim.o.background = 'dark'
 -- column width marker
 vim.o.colorcolumn = '80'
 
+-- auto fold column
+vim.o.foldcolumn = 'auto:9'
+
 -- Make line numbers default
 vim.o.number = true
 vim.o.relativenumber = true
