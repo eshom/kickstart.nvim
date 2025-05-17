@@ -34,7 +34,7 @@ vim.keymap.set('v', '<M-k>', ":m '<-2<CR>gv=gv", { desc = 'Move line(s) up(v)' }
 
 -- Color column toggle
 vim.keymap.set('n', '<leader>tC', function()
-  if tonumber(vim.wo.colorcolumn) then
+  if tonumber(vim.o.colorcolumn) then
     vim.g._colorcolumn = vim.o.colorcolumn
     vim.o.colorcolumn = ''
   else
