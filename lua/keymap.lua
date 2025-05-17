@@ -14,10 +14,10 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 
 -- Buffer navigation keybindings
 -- stylua: ignore start
-vim.keymap.set('n', '<leader>bn', function() vim.cmd 'bnext' end, { desc = 'Next [B]uffer' })
-vim.keymap.set('n', '<leader>bp', function() vim.cmd 'bprev' end, { desc = 'Previous [B]uffer' })
-vim.keymap.set('n', '<leader>bd', function() vim.cmd 'confirm bdelete' end, { desc = '[D]elete [B]uffer' })
-vim.keymap.set('n', '<leader>bo', function() vim.cmd 'b#' end, { desc = 'Switch to [o]ther [B]uffer' })
+vim.keymap.set('n', '<leader>bn', function() vim.api.nvim_command 'bnext' end, { desc = 'Next [B]uffer' })
+vim.keymap.set('n', '<leader>bp', function() vim.api.nvim_command 'bprev' end, { desc = 'Previous [B]uffer' })
+vim.keymap.set('n', '<leader>bd', function() vim.api.nvim_command 'confirm bdelete' end, { desc = '[D]elete [B]uffer' })
+vim.keymap.set('n', '<leader>bo', function() vim.api.nvim_command 'b#' end, { desc = 'Switch to [o]ther [B]uffer' })
 -- stylua: ignore end
 
 -- handy system clipboard interation

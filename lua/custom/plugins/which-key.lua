@@ -47,6 +47,7 @@ return {
     spec = {
       { '<leader>s', group = '[S]earch' },
       { '<leader>t', group = '[T]oggle' },
+      { '<leader>ti', group = '[I]ndent Blankline' },
       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       { '<leader>b', group = '[B]uffer' },
       { '<leader>c', group = '[C]ode' },
