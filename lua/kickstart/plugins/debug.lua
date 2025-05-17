@@ -7,9 +7,7 @@
 -- kickstart.nvim and not kitchen-sink.nvim ;)
 
 return {
-  -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
-  -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
@@ -21,64 +19,64 @@ return {
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
 
-    -- Add your own debuggers here
+    -- Go debugger
     'leoluz/nvim-dap-go',
     {
-      "julianolf/nvim-dap-lldb",
-      opts = { codelldb_path = "codelldb" },
-    }
+      'julianolf/nvim-dap-lldb',
+      opts = { codelldb_path = 'codelldb' },
+    },
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
     {
-      '<F5>',
+      '<leader>Dc',
       function()
         require('dap').continue()
       end,
-      desc = 'Debug: Start/Continue',
+      desc = 'Debug: Start/[C]ontinue',
     },
     {
-      '<F1>',
+      '<leader>Ds',
       function()
         require('dap').step_into()
       end,
-      desc = 'Debug: Step Into',
+      desc = 'Debug: [S]tep Into',
     },
     {
-      '<F2>',
+      '<leader>Dn',
       function()
         require('dap').step_over()
       end,
-      desc = 'Debug: Step Over',
+      desc = 'Debug: Step Over ([N]ext)',
     },
     {
-      '<F3>',
+      '<leader>Do',
       function()
         require('dap').step_out()
       end,
-      desc = 'Debug: Step Out',
+      desc = 'Debug: Step [O]ut',
     },
     {
-      '<leader>b',
+      '<leader>Db',
       function()
         require('dap').toggle_breakpoint()
       end,
-      desc = 'Debug: Toggle Breakpoint',
+      desc = 'Debug: Toggle [B]reakpoint',
     },
     {
-      '<leader>B',
+      '<leader>DB',
       function()
         require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
       end,
-      desc = 'Debug: Set Breakpoint',
+      desc = 'Debug: Set [B]reakpoint',
     },
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     {
-      '<F7>',
+      '<leader>Dl',
       function()
         require('dapui').toggle()
       end,
-      desc = 'Debug: See last session result.',
+      desc = 'Debug: See [l]ast session result.',
     },
   },
   config = function()
