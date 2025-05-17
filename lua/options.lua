@@ -23,8 +23,8 @@ vim.o.smarttab = true
 -- prefer dark themes
 vim.o.background = 'dark'
 
--- 80 column width marker
-vim.opt.colorcolumn = '80'
+-- column width marker
+vim.o.colorcolumn = '80'
 
 -- Make line numbers default
 vim.o.number = true

@@ -31,3 +31,14 @@ vim.keymap.set('i', '<M-j>', '<Esc>:m .+1<CR>==gi', { desc = 'Move line down(i)'
 vim.keymap.set('i', '<M-k>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line down(i)' })
 vim.keymap.set('v', '<M-j>', ":m '>+1<CR>gv=gv", { desc = 'Move line(s) down(v)' })
 vim.keymap.set('v', '<M-k>', ":m '<-2<CR>gv=gv", { desc = 'Move line(s) up(v)' })
+
+-- Color column toggle
+vim.keymap.set('n', '<leader>tC', function()
+  if tonumber(vim.wo.colorcolumn) then
+    vim.g._colorcolumn = vim.o.colorcolumn
+    vim.o.colorcolumn = ''
+  else
+    assert(tonumber(vim.g._colorcolumn))
+    vim.o.colorcolumn = vim.g._colorcolumn
+  end
+end, { desc = '[T]oggle [C]olorcolumn' })
