@@ -16,7 +16,7 @@ return {
       settings = {
         zls = {
           zig_exe_path = '/home/erez/.local/bin/zig-dev',
-          zig_lib_path = '/home/erez/.local/bin/zigup-internal/bin/master/files/lib',
+          zig_lib_path = '/home/erez/.local/share/zigup/master/files/lib',
           enable_argument_placeholders = false,
         },
       },
