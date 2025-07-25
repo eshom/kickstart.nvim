@@ -18,8 +18,10 @@ return {
       root_dir = root_dir,
       settings = {
         zls = {
-          zig_exe_path = '/home/erez/.local/bin/zig-dev',
-          zig_lib_path = '/home/erez/.local/share/zigup/master/files/lib',
+          -- zig_exe_path = '/home/erez/.local/bin/zig-dev',
+          -- zig_lib_path = '/home/erez/.local/share/zigup/master/files/lib',
+          zig_exe_path = '/home/erez/src/zig/build/stage3/bin/zig',
+          zig_lib_path = '/home/erez/src/zig/build/stage3/lib',
           enable_argument_placeholders = false,
         },
       },
