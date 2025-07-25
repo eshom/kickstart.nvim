@@ -21,7 +21,7 @@ return {
           -- zig_exe_path = '/home/erez/.local/bin/zig-dev',
           -- zig_lib_path = '/home/erez/.local/share/zigup/master/files/lib',
           zig_exe_path = '/home/erez/src/zig/build/stage3/bin/zig',
-          zig_lib_path = '/home/erez/src/zig/build/stage3/lib',
+          zig_lib_path = '/home/erez/src/zig/build/stage3/lib/zig',
           enable_argument_placeholders = false,
         },
       },
