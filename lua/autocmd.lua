@@ -51,8 +51,9 @@ local is_zig_dev = function(root_dir)
   ---@type string
   local contents = zon:read '*a'
   local find_dev = contents:find '%.minimum_zig_version.+%d+%.%d+%.%d+-dev'
+  local find_dev2 = contents:find '%.version.+%d+%.%d+%.%d+-dev'
   zon:close()
-  return find_dev ~= nil
+  return find_dev ~= nil or find_dev2 ~= nil
 end
 
 -- Use `zls-dev` instead of `zls` if `.minimum_zig_version` contains "dev"
