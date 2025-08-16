@@ -8,7 +8,7 @@ return {
     local clients = vim.lsp.get_clients()
 
     -- But also avoid starting zls-dev multiple times
-    local zls_dev_found = false
+    local zls_dev_client_id = nil
 
     for _, value in pairs(clients) do
       if value.name == 'zls' then
@@ -17,12 +17,13 @@ return {
       end
 
       if value.name == 'zls-dev' then
-        zls_dev_found = true
+        zls_dev_client_id = value.id
       end
     end
 
-    if zls_dev_found then
-      return
+    -- The correct thing is to attach buffer to existing client
+    if zls_dev_client_id ~= nil then
+      vim.lsp.buf_attach_client(vim.api.nvim_get_current_buf(), zls_dev_client_id)
     end
 
     vim.lsp.start {
