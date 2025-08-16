@@ -6,12 +6,25 @@ return {
     ---@type string
     local root_dir
     local clients = vim.lsp.get_clients()
+
+    -- But also avoid starting zls-dev multiple times
+    local zls_dev_found = false
+
     for _, value in pairs(clients) do
       if value.name == 'zls' then
         vim.lsp.stop_client(value.id)
         root_dir = value.root_dir
       end
+
+      if value.name == 'zls-dev' then
+        zls_dev_found = true
+      end
     end
+
+    if zls_dev_found then
+      return
+    end
+
     vim.lsp.start {
       name = 'zls-dev',
       cmd = { 'zls-dev' },
