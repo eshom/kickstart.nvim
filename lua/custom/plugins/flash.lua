@@ -6,6 +6,7 @@ return {
   opts = {
     highlight = {
       backdrop = false,
+      groups = { backdrop = '' },
     },
   },
   -- stylua: ignore
