@@ -21,10 +21,10 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'FileType' }, {
 
 --- Returns existing client id and root dir
 ---@return { id: integer, root_dir: string }?
-local find_zls_id = function()
+local find_zls_id = function(lsp_name)
   local clients = vim.lsp.get_clients()
   for _, value in pairs(clients) do
-    if value.name == 'zls' then
+    if value.name == lsp_name then
       local out = {}
       out.id = value.id
       if value.root_dir == nil then
@@ -62,14 +62,16 @@ vim.api.nvim_create_autocmd({ 'LspAttach' }, {
   pattern = { '*.zig', '*.zon' },
   group = vim.api.nvim_create_augroup('zig', { clear = false }),
   callback = function()
-    local zls_existing = find_zls_id()
-    if zls_existing == nil then
-      return
+    local zls_existing = find_zls_id 'zls'
+    local zls_dev_existing = find_zls_id 'zls-dev'
+    if zls_existing ~= nil and is_zig_dev(zls_existing.root_dir) then
+      -- `ZlsDevStart` stops normal zls client if it finds it.
+      vim.api.nvim_cmd({ cmd = 'ZlsDevStart' }, {})
     end
-    if is_zig_dev(zls_existing.root_dir) then
-      -- `ZlsDevStart` also stops zls if it finds it.
-      -- Keeping it in case I want to manually run the command
-      vim.lsp.stop_client(zls_existing.id)
+
+    -- If we already have zls-dev open, but it is in std,
+    -- then this will attach the buffer to it.
+    if zls_dev_existing ~= nil then
       vim.api.nvim_cmd({ cmd = 'ZlsDevStart' }, {})
     end
   end,
