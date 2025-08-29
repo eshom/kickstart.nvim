@@ -42,3 +42,17 @@ vim.keymap.set('n', '<leader>tC', function()
     vim.o.colorcolumn = vim.g._colorcolumn
   end
 end, { desc = '[T]oggle [C]olorcolumn' })
+
+-- Virtual Edit Toggle (all, none)
+vim.keymap.set('n', '<leader>tv', function()
+  if vim.o.virtualedit == '' or vim.o.virtualedit == 'none' or vim.o.virtualedit == 'NONE' then
+    vim.o.virtualedit = 'all'
+  else
+    vim.o.virtualedit = 'none'
+  end
+end, { desc = '[T] [V]irtual Edit (All)' })
+
+-- Spell checking toggle for local buffer
+vim.keymap.set('n', '<leader>ts', function()
+  vim.o.spell = not vim.o.spell
+end, { desc = '[T]oggle [S]pell checking' })
