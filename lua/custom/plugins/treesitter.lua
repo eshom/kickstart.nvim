@@ -51,7 +51,7 @@ return {
         }
 
         vim.keymap.set('n', '<leader>tc', function()
-          vim.cmd 'TSContextToggle'
+          vim.cmd 'TSContext toggle'
         end, { desc = 'Toggle [T]reesitter Context' })
       end,
     },
