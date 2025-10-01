@@ -55,6 +55,7 @@ alignman	Align.txt	/*alignman*
 alignmanual	Align.txt	/*alignmanual*
 alignmap-Htd	Align.txt	/*alignmap-Htd*
 alignmap-T=	Align.txt	/*alignmap-T=*
+alignmap-Tbar	Align.txt	/*alignmap-Tbar*
 alignmap-Tsp	Align.txt	/*alignmap-Tsp*
 alignmap-a(	Align.txt	/*alignmap-a(*
 alignmap-a,	Align.txt	/*alignmap-a,*
@@ -66,6 +67,7 @@ alignmap-acom	Align.txt	/*alignmap-acom*
 alignmap-adcom	Align.txt	/*alignmap-adcom*
 alignmap-adec	Align.txt	/*alignmap-adec*
 alignmap-adef	Align.txt	/*alignmap-adef*
+alignmap-aenum	Align.txt	/*alignmap-aenum*
 alignmap-afnc	Align.txt	/*alignmap-afnc*
 alignmap-anum	Align.txt	/*alignmap-anum*
 alignmap-aocom	Align.txt	/*alignmap-aocom*
@@ -80,6 +82,7 @@ alignmap-t<	Align.txt	/*alignmap-t<*
 alignmap-t=	Align.txt	/*alignmap-t=*
 alignmap-t?	Align.txt	/*alignmap-t?*
 alignmap-tab	Align.txt	/*alignmap-tab*
+alignmap-tbar	Align.txt	/*alignmap-tbar*
 alignmap-tml	Align.txt	/*alignmap-tml*
 alignmap-ts,	Align.txt	/*alignmap-ts,*
 alignmap-ts:	Align.txt	/*alignmap-ts:*
@@ -93,4 +96,6 @@ alignmaps	Align.txt	/*alignmaps*
 alignusage	Align.txt	/*alignusage*
 g:AlignSkip	Align.txt	/*g:AlignSkip*
 g:alignmaps_euronumber	Align.txt	/*g:alignmaps_euronumber*
+g:alignmaps_euronumber1000	Align.txt	/*g:alignmaps_euronumber1000*
 g:alignmaps_usanumber	Align.txt	/*g:alignmaps_usanumber*
+g:alignmaps_usanumber1000	Align.txt	/*g:alignmaps_usanumber1000*

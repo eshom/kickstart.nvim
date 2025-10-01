@@ -1,8 +1,8 @@
 " AlignMaps.vim : support functions for AlignMaps
 "   Author: Charles E. Campbell
-"     Date: Mar 12, 2013
-"  Version: 43
-" Copyright:    Copyright (C) 1999-2012 Charles E. Campbell {{{1
+"     Date: Apr 24, 2023
+"  Version: 46h	ASTRO-ONLY
+" Copyright:    Copyright (C) 2020 Charles E. Campbell {{{1
 "               Permission is hereby granted to use and distribute this code,
 "               with or without modifications, provided that this copyright
 "               notice is copied with it. Like anything else that's free,
@@ -16,10 +16,20 @@
 if &cp || exists("g:loaded_AlignMaps")
  finish
 endif
-let g:loaded_AlignMaps= "v43"
+let g:loaded_AlignMaps= "v46h"
 let s:keepcpo         = &cpo
 set cpo&vim
+
+" ---------------------------------------------------------------------
+" Debugging Support:
+"if !exists("g:loaded_Decho")              " Decho
+" runtime plugin/Decho.vim                 " Decho
+"endif                                     " Decho
+"if !exists("g:loaded_cecutil")            " Decho
+" runtime AsNeeded/cecutil.vim             " Decho
+"endif                                     " Decho
 "DechoTabOn
+"call Decho("AlignMaps loaded")
 
 " =====================================================================
 " Functions: {{{1
@@ -42,13 +52,23 @@ fun! AlignMaps#WrapperStart(vis) range
    let s:alignmaps_keepmy     = SaveMark("'y")
    let s:alignmaps_keepmz     = SaveMark("'z")
    let s:alignmaps_posn       = SaveWinPosn(0)
-   " set up fencepost blank lines
+   if has("folding")
+    let s:foldlevel            = &foldlevel
+    norm! zR
+   endif
+   " set up fencepost blank line : appends a line after current line, then current line is incremented
    put =''
+   if line("'a") == 0
+	echoerr "Need to set mark-a or use visual-line mode (V)"
+"  call Dret("AlignMaps#WrapperStart : alignmaps_wrapcnt=".s:alignmaps_wrapcnt." my=".line("'y")." mz=".line("'z"))
+	return
+   endif
    keepj norm! mz'a
+   " set up fencepost blank line : prepends a line before 'a, cursor moves to new blank line
    put! =''
    ky
-   let s:alignmaps_zline      = line("'z")
-   exe "keepj 'y,'zs/@/\177/ge"
+   let s:alignmaps_zline = line("'z")
+   exe "keepj 'y,'zs/@/ÿ/ge"
   else
 "   call Decho("embedded wrapper")
    let s:alignmaps_wrapcnt    = s:alignmaps_wrapcnt + 1
@@ -77,7 +97,7 @@ fun! AlignMaps#WrapperEnd() range
   let s:alignmaps_wrapcnt= s:alignmaps_wrapcnt - 1
   if s:alignmaps_wrapcnt <= 0
    " initial wrapper ending
-   exe "keepj 'y,'zs/\177/@/ge"
+   exe "keepj 'y,'zs/ÿ/@/ge"
 
    " if the 'z line hasn't moved, then go ahead and restore window position
    let zstationary= s:alignmaps_zline == line("'z")
@@ -86,18 +106,26 @@ fun! AlignMaps#WrapperEnd() range
    " restore 'a
    keepj norm! 'yjmakdd'zdd
 
+   " restore folding prior to restoring position in window
+   if has("folding")
+    let &foldlevel = s:foldlevel
+	sil! norm! zCzv
+   endif
+
    " restore original 'y, 'z, and window positioning
-   call RestoreMark(s:alignmaps_keepmy)
-   call RestoreMark(s:alignmaps_keepmz)
-   if zstationary > 0
-    call RestoreWinPosn(s:alignmaps_posn)
-"    call Decho("restored window positioning")
+   if exists("s:alignmaps_posn")
+	call RestoreMark(s:alignmaps_keepmy)
+	call RestoreMark(s:alignmaps_keepmz)
+	if zstationary > 0
+	 call RestoreWinPosn(s:alignmaps_posn)
+" "    call Decho("restored window positioning")
+	endif
    endif
 
    " restoration of options
-   let &gd= s:alignmaps_keepgd
-   let &ch= s:alignmaps_keepch
-   let @/ = s:alignmaps_keepsearch
+   let &gd = s:alignmaps_keepgd
+   let &ch = s:alignmaps_keepch
+   let @/  = s:alignmaps_keepsearch
 
    " remove script variables
    unlet s:alignmaps_keepch
@@ -112,38 +140,29 @@ fun! AlignMaps#WrapperEnd() range
 endfun
 
 " ---------------------------------------------------------------------
-" AlignMaps#MakeMap: make both a normal-mode and a visual mode map for mapname {{{2
-fun! AlignMaps#MakeMap(mapname)
-  if exists("g:maplocalleader")
-   let maplead= g:maplocalleader
-  elseif exists("g:mapleader")
-   let maplead= g:mapleader
-  else
-   let maplead= '\'
-  endif
-  exe "nmap <unique> ".maplead.a:mapname."	<Plug>AM_".a:mapname
-  exe "vmap <silent> ".maplead.a:mapname.'	:call AlignMaps#Vis("'.a:mapname.'")'."<cr>"
-endfun
-
-" ---------------------------------------------------------------------
 " AlignMaps#StdAlign: some semi-standard align calls {{{2
-fun! AlignMaps#StdAlign(mode) range
+fun! AlignMaps#StdAlign(mode,...) range
 "  call Dfunc("AlignMaps#StdAlign(mode=".a:mode.")")
+  if a:0 == 2
+   let alignchar= a:1
+  else
+   let alignchar= '@'
+  endif
   if     a:mode == 1
    " align on @
 "   call Decho("align on @")
-   AlignCtrl mIp1P1=l @
+   exe "AlignCtrl mIp1P1=l ".alignchar
    'a,.Align
   elseif a:mode == 2
    " align on @, retaining all initial white space on each line
 "   call Decho("align on @, retaining all initial white space on each line")
-   AlignCtrl mWp1P1=l @
+   exe "AlignCtrl mWp1P1=l ".alignchar
    'a,.Align
   elseif a:mode == 3
    " like mode 2, but ignore /* */-style comments
 "   call Decho("like mode 2, but ignore /* */-style comments")
    AlignCtrl v ^\s*/[/*]
-   AlignCtrl mWp1P1=l @
+   exe "AlignCtrl mWp1P1=l ".alignchar
    'a,.Align
   else
    echoerr "(AlignMaps) AlignMaps#StdAlign doesn't support mode#".a:mode
@@ -222,24 +241,28 @@ fun! AlignMaps#Afnc()
   let chkeep = &l:ch
   let gdkeep = &l:gd
   let wwkeep = &l:ww
-  let vekeep = &l:ve
-  setlocal ch=2 nogd ve= ww=b,s,<,>,[,]
+  let vekeep = &ve
+  setlocal ch=2 nogd ww=b,s,<,>,[,]
+  set ve=
 
   " will use marks y,z ; save current values
+  let makeep = SaveMark("'a")
   let mykeep = SaveMark("'y")
   let mzkeep = SaveMark("'z")
 
   " Find beginning of function -- be careful to skip over comments
+"  call Decho("find beginning of function (skip comments)")
   let cmmntid  = synIDtrans(hlID("Comment"))
   let stringid = synIDtrans(hlID("String"))
   exe "keepj norm! ]]"
   while search(")","bW") != 0
-"   call Decho("line=".line(".")." col=".col("."))
+"   call Decho("..searching for ): line=".line(".")." col=".col("."))
    let parenid= synIDtrans(synID(line("."),col("."),1))
    if parenid != cmmntid && parenid != stringid
    	break
    endif
   endwhile
+"  call Decho("beginning of function found: line#".line("."))
   keepj norm! %my
   keepj s/(\s*\(\S\)/(\r  \1/e
   exe "keepj norm! `y%"
@@ -250,13 +273,14 @@ fun! AlignMaps#Afnc()
   keepj 'y+1,'zs/^/  /
 
   " insert newline after every comma only one parenthesis deep
+"  call Decho("insert newline after every comma only one parenthesis deep")
   exe "sil! keepj norm! `y\<right>h"
   let parens   = 1
   let cmmnt    = 0
   let cmmntline= -1
   while parens >= 1
-   exe 'keepj norm! ma "ay`a '
-"   call Decho("parens=".parens." cmmnt=".cmmnt." cmmntline=".cmmntline." line(.)=".line(".")." @a<".@a."> line<".getline(".").">")
+   exe "keepj norm! ma \"ay`a\<right>"
+"   call Decho("..parens=".parens." cmmnt=".cmmnt." cmmntline=".cmmntline." line(.)=".line(".").":".col(".")." @a<".@a."> line<".getline(".").">")
    if @a == "("
     let parens= parens + 1
    elseif @a == ")"
@@ -290,10 +314,12 @@ fun! AlignMaps#Afnc()
 	exe "keepj norm! i\<CR>\<Esc>"
    endif
   endwhile
+"  call Decho("done inserting newline after every comma")
   sil! keepj norm! `y%mz%
   sil! keepj 'y,'zg/^\s*$/d
 
   " perform substitutes to mark fields for Align
+"  call Decho("perform substitutes to mark fields for Align")
   sil! keepj 'y+1,'zv/^\//s/^\s\+\(\S\)/  \1/e
   sil! keepj 'y+1,'zv/^\//s/\(\S\)\s\+/\1 /eg
   sil! keepj 'y+1,'zv/^\//s/\* \+/*/ge
@@ -315,14 +341,21 @@ fun! AlignMaps#Afnc()
   sil! keepj 'y+1,'zs/#/ /
   sil! keepj 'y+1,'zs/@//
   sil! keepj 'y+1,'zs/\(\s\+\)\([,)]\)/\2\1/e
+  sil! keepj 'y,'zs/)\s\+(/)(/ge
+
+  ") (needed to ignore closing parenthesese above)
+  norm! 'yma'z
+  norm \acom
 
   " Restore
+"  call Decho("Restore marks a y z  and options ch gd ww ve")
+  call RestoreMark(makeep)
   call RestoreMark(mykeep)
   call RestoreMark(mzkeep)
   let &l:ch= chkeep
   let &l:gd= gdkeep
   let &l:ww= wwkeep
-  let &l:ve= vekeep
+  let &ve= vekeep
 
 "  call Dret("AlignMaps#Afnc")
 endfun
@@ -371,24 +404,27 @@ endfun
 
 " ---------------------------------------------------------------------
 " AlignMaps#Vis: interfaces with visual maps {{{2
-fun! AlignMaps#Vis(plugmap) range
-"  call Dfunc("AlignMaps#VisCall(plugmap<".a:plugmap.">) ".a:firstline.",".a:lastline)
+fun! AlignMaps#Vis(nmapname) range
+"  call Dfunc("AlignMaps#VisCall(nmapname<".a:nmapname.">) ".a:firstline.",".a:lastline)
 
   let amark= SaveMark("a")
   exe a:firstline
   ka
   exe a:lastline
 
-  if exists("g:maplocalleader")
-   let maplead= g:maplocalleader
-  elseif exists("g:mapleader")
-   let maplead= g:mapleader
-  else
-   let maplead= '\'
+  if !exists("s:mapleader")
+   if exists("g:maplocalleader")
+    let maplead= g:maplocalleader
+   elseif exists("g:mapleader")
+    let maplead= g:mapleader
+   else
+    let maplead= '\'
+   endif
+   let s:mapleader= maplead
   endif
 
-"  call Decho("exe norm ".maplead.a:plugmap)
-  exe " norm ".maplead.a:plugmap
+"  call Decho("exe norm ".maplead.a:nmapname)
+  exe " norm ".s:mapleader.a:nmapname
 
   call RestoreMark(amark)
 "  call Dret("AlignMaps#VisCall")
