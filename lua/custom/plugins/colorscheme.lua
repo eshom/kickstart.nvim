@@ -45,10 +45,6 @@ return {
     'bluz71/vim-moonfly-colors',
     lazy = false,
     priority = 1000,
-    config = function()
-      -- default theme
-      vim.cmd.colorscheme 'moonfly'
-    end,
   },
 
   {
