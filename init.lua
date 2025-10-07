@@ -32,4 +32,4 @@ require('lazy').setup({
 })
 
 -- default theme
-vim.cmd.colorscheme 'cyberdream'
+vim.api.nvim_cmd({ cmd = 'colorscheme', args = { 'cyberdream' } }, { output = false })
