@@ -32,4 +32,4 @@ require('lazy').setup({
 })
 
 -- default theme
-vim.cmd.colorscheme 'everforest'
+vim.cmd.colorscheme 'cyberdream'
