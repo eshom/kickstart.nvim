@@ -58,6 +58,7 @@ vim.keymap.set('n', '<leader>ts', function()
 end, { desc = '[T]oggle [S]pell checking' })
 
 -- Toggle number of spaces for indentation
+-- TODO: Make one function that asks for user input for number of spaces
 vim.keymap.set('n', '<leader>tI4', function()
   vim.o.shiftwidth = 4
   vim.o.softtabstop = 4
