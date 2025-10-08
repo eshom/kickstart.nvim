@@ -56,3 +56,19 @@ end, { desc = '[T] [V]irtual Edit (All)' })
 vim.keymap.set('n', '<leader>ts', function()
   vim.o.spell = not vim.o.spell
 end, { desc = '[T]oggle [S]pell checking' })
+
+-- Toggle number of spaces for indentation
+vim.keymap.set('n', '<leader>tI4', function()
+  vim.o.shiftwidth = 4
+  vim.o.softtabstop = 4
+end, { desc = '[4] spaces for indentation' })
+
+vim.keymap.set('n', '<leader>tI8', function()
+  vim.o.shiftwidth = 8
+  vim.o.softtabstop = 8
+end, { desc = '[8] spaces for indentation' })
+
+vim.keymap.set('n', '<leader>tI2', function()
+  vim.o.shiftwidth = 2
+  vim.o.softtabstop = 2
+end, { desc = '[2] spaces for indentation' })
