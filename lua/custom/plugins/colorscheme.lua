@@ -5,6 +5,9 @@ return {
     config = function()
       require('cyberdream').setup {
         highlights = {
+          -- This is needed to workaround blink.cmp issue where
+          -- The highlight gets cleared if you define it in 'init.lua'
+          -- https://github.com/Saghen/blink.cmp/issues/2199
           BlinkCmpMenuSelection = {},
         },
       }

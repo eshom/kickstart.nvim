@@ -76,3 +76,13 @@ vim.api.nvim_create_autocmd({ 'LspAttach' }, {
     end
   end,
 })
+
+-- json make sure spaces are used by autoformatters
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  desc = 'Use expandtab option for json files',
+  pattern = 'json',
+  group = vim.api.nvim_create_augroup('json', { clear = false }),
+  callback = function()
+    vim.bo.expandtab = true
+  end,
+})
